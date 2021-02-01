@@ -5,6 +5,7 @@ package io.github.nan8279.jhttp.request.request_headers;
  */
 public enum Command {
     GET("GET"),
+    HEAD("HEAD"),
     POST("POST");
 
     final private String command;

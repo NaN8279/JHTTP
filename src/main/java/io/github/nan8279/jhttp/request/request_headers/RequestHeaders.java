@@ -27,7 +27,7 @@ public class RequestHeaders {
         command = Command.fromString(fullCommand.split(" ")[0]);
         URI = fullCommand.split(" ")[1];
 
-        if (getCommand() == Command.GET) {
+        if (getCommand() == Command.GET || getCommand() == Command.HEAD) {
             if (URI.split("\\?").length > 1) {
                 data = URI.split("\\?")[1];
             } else {

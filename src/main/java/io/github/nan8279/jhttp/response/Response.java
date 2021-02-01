@@ -121,6 +121,15 @@ public class Response {
     }
 
     /**
+     * Sets the data of the response;
+     *
+     * @param data the data to set in the response;
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    /**
      * This generates the default HTTP response message.
      *
      * @param status the status code to generate the default message for.

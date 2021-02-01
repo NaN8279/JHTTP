@@ -13,7 +13,7 @@ import io.github.nan8279.jhttp.response.status_code.StatusCode;
 import java.util.HashMap;
 
 /**
- * A request manager. Should only be used internally.
+ * A request manager. Should only be constructed internally.
  *
  * Use {@link JHTTP#getManager()} to get the request manager of a HTTP server.
  */
@@ -61,15 +61,19 @@ public class RequestManager {
             return new Response(StatusCode.STATUS_505);
         }
 
-        if (request.getCommand() == Command.GET) {
+        if (request.getCommand() == Command.GET || request.getCommand() == Command.HEAD) {
             response = this.parseRequest(new GetRequest(request, client.getCookies()));
         } else if (request.getCommand() == Command.POST) {
             response = this.parseRequest(new PostRequest(request, client.getCookies()));
         } else {
             return new Response(StatusCode.STATUS_501);
         }
+
         if (response == null) {
             return new Response(StatusCode.STATUS_404);
+        } else if (request.getCommand() == Command.HEAD) {
+            response.setData("");
+            return response;
         }
 
         return response;
