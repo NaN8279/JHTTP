@@ -16,8 +16,6 @@ import org.mozilla.javascript.Scriptable;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 
 public class Server {
@@ -50,8 +48,13 @@ public class Server {
             Document document = Jsoup.parse(page, "UTF-8");
             Elements httpScripts = document.getElementsByTag("httpscript");
 
+            if (name.equals("index")) {
+                name = "";
+            }
+
             if (httpScripts.size() != 0) {
 
+                String finalName = name;
                 RequestHandler handler = request -> {
                     Document documentCopy = document.clone();
                     Elements httpScriptsCopy = documentCopy.getElementsByTag(
@@ -64,14 +67,14 @@ public class Server {
                         try {
                             Scriptable scope = context.initStandardObjects();
                             Function onRequestFunction = context.compileFunction(scope, script,
-                                    name, 1, null);
+                                    finalName, 1, null);
 
                             Object result = onRequestFunction.call(context, scope, scope,
                                     new Request[]{request});
 
                             httpScript.replaceWith(new TextNode(Context.toString(result)));
                         } catch (Exception exception) {
-                            System.out.println("An error occurred while rendering page " + name);
+                            System.out.println("An error occurred while rendering page " + finalName);
                             exception.printStackTrace();
                             return new Response(StatusCode.STATUS_500);
                         } finally {
@@ -83,13 +86,8 @@ public class Server {
 
                 server.getManager().addRequestHandler(handler, "/" + name);
             } else {
-
-                if (name.equals("index")) {
-                    server.getManager().addRequestHandler(request -> Response.renderTemplate(page.getPath()), "/");
-                } else {
-                    server.getManager().addRequestHandler(request -> Response.renderTemplate(page.getPath()),
-                            "/" + name);
-                }
+                server.getManager().addRequestHandler(
+                        request -> Response.renderTemplate(page.getPath()), "/" + name);
             }
         }
 

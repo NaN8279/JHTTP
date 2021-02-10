@@ -8,4 +8,4 @@ The Javadoc is in the doc dir.
 
 In this branch, I will be working on a JavaScript API for the JHTTP server framework.
 
-This uses Mozilla Rhino to parse JavaScript.
+This uses Mozilla Rhino to parse JavaScript and Jsoup to parse HTML.
