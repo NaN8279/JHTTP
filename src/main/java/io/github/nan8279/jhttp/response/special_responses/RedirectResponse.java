@@ -3,6 +3,7 @@ package io.github.nan8279.jhttp.response.special_responses;
 import io.github.nan8279.jhttp.cookies.Cookie;
 import io.github.nan8279.jhttp.exceptions.InvalidStatusCodeException;
 import io.github.nan8279.jhttp.response.Response;
+import io.github.nan8279.jhttp.response.response_types.ResponseType;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
 
 /**
@@ -34,7 +35,7 @@ public class RedirectResponse extends Response {
                         "Connection: Closed\r\n" +
                         "Server: JHTTP/1.0\r\n" +
                         "Content-Length: " + data.length() + "\r\n" +
-                        "Content-Type: text/plain; charset=utf-8\r\n" +
+                        "Content-Type: "+ ResponseType.HTML.getMIMEString() + "; charset=utf-8\r\n" +
                         "Location: " + location + "\r\n");
 
         for (Cookie cookie : getCookies()) {

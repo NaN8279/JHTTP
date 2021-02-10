@@ -7,5 +7,6 @@ io.github.nan8279.jhttp.request
 io.github.nan8279.jhttp.request.request_headers
 io.github.nan8279.jhttp.request.request_types
 io.github.nan8279.jhttp.response
+io.github.nan8279.jhttp.response.response_types
 io.github.nan8279.jhttp.response.special_responses
 io.github.nan8279.jhttp.response.status_code

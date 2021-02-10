@@ -1,6 +1,7 @@
 package io.github.nan8279.jhttp.response;
 
 import io.github.nan8279.jhttp.cookies.Cookie;
+import io.github.nan8279.jhttp.response.response_types.ResponseType;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class Response {
 
     final private ArrayList<Cookie> cookies = new ArrayList<>();
     final protected StatusCode status;
-    protected String responseType;
+    protected ResponseType responseType = ResponseType.HTML;
     protected String data;
     protected int dataLength;
 
@@ -66,7 +67,6 @@ public class Response {
     public Response(StatusCode status, String data) {
         this.status = status;
         this.data = data;
-        responseType = "text/html; charset=utf-8";
     }
 
     /**
@@ -77,7 +77,6 @@ public class Response {
     public Response(StatusCode status) {
         this.status = status;
         data = generateDefaultData(status);
-        responseType = "text/html; charset=utf-8";
     }
 
     /**
@@ -88,7 +87,6 @@ public class Response {
     public Response(String data) {
         status = StatusCode.STATUS_200;
         this.data = data;
-        this.responseType = "text/html; charset=utf-8";
     }
 
     /**
@@ -155,7 +153,7 @@ public class Response {
                         "Connection: Closed\r\n" +
                         "Server: JHTTP/1.0\r\n" +
                         "Content-Length: " + dataLength + "\r\n" +
-                        "Content-Type: " + responseType);
+                        "Content-Type: " + responseType.getMIMEString() + "; charset=utf-8");
 
         for (Cookie cookie : getCookies()) {
             response.append("\r\n");
@@ -184,5 +182,14 @@ public class Response {
         } catch (IOException exception) {
             return new Response(StatusCode.STATUS_404);
         }
+    }
+
+    /**
+     * Sets the response type of the response.
+     *
+     * @param responseType the response type.
+     */
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 }
