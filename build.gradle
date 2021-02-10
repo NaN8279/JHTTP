@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 group 'io.github.nan8279'
@@ -9,4 +10,15 @@ repositories {
     mavenCentral()
 }
 
-dependencies {}
+dependencies {
+    compile files("libs/rhino-1.7.13.jar")
+    compile files("libs/jsoup-1.13.1.jar")
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "io.github.nan8279.jhttp_script.Server"
+        )
+    }
+}
