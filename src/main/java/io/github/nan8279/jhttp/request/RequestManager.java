@@ -62,9 +62,9 @@ public class RequestManager {
         }
 
         if (request.getCommand() == Command.GET || request.getCommand() == Command.HEAD) {
-            response = this.parseRequest(new GetRequest(request, client.getCookies()));
+            response = this.parseRequest(new GetRequest(request, client.getCookies(), client));
         } else if (request.getCommand() == Command.POST) {
-            response = this.parseRequest(new PostRequest(request, client.getCookies()));
+            response = this.parseRequest(new PostRequest(request, client.getCookies(), client));
         } else {
             return new Response(StatusCode.STATUS_501);
         }

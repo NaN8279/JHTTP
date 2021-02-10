@@ -1,5 +1,6 @@
 package io.github.nan8279.jhttp.request;
 
+import io.github.nan8279.jhttp.client.Client;
 import io.github.nan8279.jhttp.cookies.Cookie;
 import io.github.nan8279.jhttp.request.request_headers.RequestHeaders;
 
@@ -11,15 +12,18 @@ import java.util.HashMap;
  */
 public abstract class Request {
     final private RequestHeaders headers;
+    final private Client client;
     final private ArrayList<Cookie> cookies = new ArrayList<>();
 
     /**
      * @param headers the request.
      * @param cookies the cookies the user has.
+     * @param client the client that is requesting.
      */
-    public Request(RequestHeaders headers, ArrayList<Cookie> cookies) {
+    public Request(RequestHeaders headers, ArrayList<Cookie> cookies, Client client) {
         this.headers = headers;
         this.cookies.addAll(cookies);
+        this.client = client;
     }
 
     /**
@@ -69,5 +73,12 @@ public abstract class Request {
         }
 
         return data;
+    }
+
+    /**
+     * @return the client that is requesting.
+     */
+    public Client getClient() {
+        return client;
     }
 }
