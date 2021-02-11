@@ -199,4 +199,11 @@ public class Response {
     public void setResponseType(ResponseType responseType) {
         this.responseType = responseType;
     }
+
+    /**
+     * @return the response type given in this response.
+     */
+    public ResponseType getResponseType() {
+        return responseType;
+    }
 }
