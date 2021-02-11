@@ -4,6 +4,7 @@ import io.github.nan8279.jhttp.cookies.Cookie;
 import io.github.nan8279.jhttp.response.response_types.ResponseType;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -178,6 +179,12 @@ public class Response {
     public static Response renderTemplate(String path) {
         try {
             String data = Files.readString(Path.of(path));
+            Response response = new Response(data);
+
+            String[] name = new File(path).getName().split("\\.");
+            String extension = name[name.length - 1];
+
+            response.setResponseType(ResponseType.fromExtension(extension));
             return new Response(data);
         } catch (IOException exception) {
             return new Response(StatusCode.STATUS_404);
