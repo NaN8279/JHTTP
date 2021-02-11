@@ -4,6 +4,7 @@ import io.github.nan8279.jhttp.JHTTP;
 import io.github.nan8279.jhttp.request.Request;
 import io.github.nan8279.jhttp.request.RequestHandler;
 import io.github.nan8279.jhttp.response.Response;
+import io.github.nan8279.jhttp.response.response_types.ResponseType;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,12 +28,13 @@ public class Server {
                 continue;
             }
 
-            String name = page.getName().split("\\.")[0];
+            String name = page.getName();
+            String extension = page.getName().split("\\.")[1];
 
             Document document = Jsoup.parse(page, "UTF-8");
             Elements httpScripts = document.getElementsByTag("httpscript");
 
-            if (name.equals("index")) {
+            if (name.equals("index.html") || name.equals("index.htm")) {
                 name = "";
             }
 
@@ -65,13 +67,20 @@ public class Server {
                             Context.exit();
                         }
                     }
-                    return new Response(documentCopy.toString());
+                    Response response = new Response(documentCopy.toString());
+                    response.setResponseType(ResponseType.fromExtension(extension));
+
+                    return response;
                 };
 
                 server.getManager().addRequestHandler(handler, prefix + name);
             } else {
                 server.getManager().addRequestHandler(
-                        request -> Response.renderTemplate(page.getPath()), prefix + name);
+                        request -> {
+                                Response response = Response.renderTemplate(page.getPath());
+                                response.setResponseType(ResponseType.fromExtension(extension));
+                                return response;
+                            }, prefix + name);
             }
         }
     }
