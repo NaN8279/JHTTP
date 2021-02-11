@@ -28,11 +28,6 @@ public class Server {
             }
 
             String name = page.getName().split("\\.")[0];
-            String extension = page.getName().split("\\.")[1];
-
-            if (!extension.equals("html") && !extension.equals("htm")) {
-                continue;
-            }
 
             Document document = Jsoup.parse(page, "UTF-8");
             Elements httpScripts = document.getElementsByTag("httpscript");
