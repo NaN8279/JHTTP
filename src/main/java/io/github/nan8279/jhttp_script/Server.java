@@ -20,21 +20,10 @@ import java.util.Objects;
 
 public class Server {
 
-    public static void main(String[] args) throws IOException {
-        File pagesDir = new File("./pages");
-        if (!pagesDir.isDirectory()) {
-            if (!pagesDir.mkdirs()) {
-                System.out.println("Couldn't create the pages directory!");
-                return;
-            }
-        }
-
-
-
-        JHTTP server = new JHTTP(args.length == 0 ? 5000 : Integer.parseInt(args[0]));
-
+    private static void parseDirectory(File pagesDir, JHTTP server, String prefix) throws IOException {
         for (File page : Objects.requireNonNull(pagesDir.listFiles())) {
             if (page.isDirectory()) {
+                parseDirectory(page, server, prefix + page.getName() + "/");
                 continue;
             }
 
@@ -84,13 +73,25 @@ public class Server {
                     return new Response(documentCopy.toString());
                 };
 
-                server.getManager().addRequestHandler(handler, "/" + name);
+                server.getManager().addRequestHandler(handler, prefix + name);
             } else {
                 server.getManager().addRequestHandler(
-                        request -> Response.renderTemplate(page.getPath()), "/" + name);
+                        request -> Response.renderTemplate(page.getPath()), prefix + name);
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        File pagesDir = new File("./pages");
+        if (!pagesDir.isDirectory()) {
+            if (!pagesDir.mkdirs()) {
+                System.out.println("Couldn't create the pages directory!");
+                return;
             }
         }
 
+        JHTTP server = new JHTTP(args.length == 0 ? 5000 : Integer.parseInt(args[0]));
+        parseDirectory(pagesDir, server, "/");
         server.run();
     }
 }
