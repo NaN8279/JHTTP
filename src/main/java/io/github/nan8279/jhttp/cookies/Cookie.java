@@ -63,8 +63,9 @@ public class Cookie {
     public String toString() {
         if (getExpireDate() != null) {
             return "Set-Cookie: " + getName() + "=" + getValue() +
-                    "; Expires=" + getExpireDate().format(DateTimeFormatter.RFC_1123_DATE_TIME);
+                    "; Expires=" + getExpireDate().format(DateTimeFormatter.RFC_1123_DATE_TIME) +
+                    "; SameSite=Lax";
         }
-        return "Set-Cookie: " + getName() + "=" + getValue();
+        return "Set-Cookie: " + getName() + "=" + getValue() + "; SameSite=Lax";
     }
 }

@@ -38,6 +38,8 @@ public class Client extends Thread {
     }
 
     /**
+     * This should only be used internally.
+     *
      * @return the cookies the client has.
      */
     public ArrayList<Cookie> getCookies() {
@@ -114,6 +116,9 @@ public class Client extends Thread {
         } catch (IOException ignored) {}
     }
 
+    /**
+     * Should only be used internally.
+     */
     @Override
     public void run() {
         try {
