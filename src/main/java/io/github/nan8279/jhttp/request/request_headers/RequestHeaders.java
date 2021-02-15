@@ -37,7 +37,7 @@ public class RequestHeaders {
             }
             URI = URI.split("\\?")[0];
         } else {
-            data = payload;
+            data = URLDecoder.decode(payload, StandardCharsets.UTF_8);
         }
 
         protocol = Protocol.fromString(fullCommand.split(" ")[2].trim());
