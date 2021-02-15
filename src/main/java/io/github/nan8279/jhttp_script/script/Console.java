@@ -2,6 +2,9 @@ package io.github.nan8279.jhttp_script.script;
 
 import java.util.HashMap;
 
+/**
+ * JavaScript-like console object.
+ */
 public class Console {
     final private HashMap<String, Integer> counts = new HashMap<>();
 
