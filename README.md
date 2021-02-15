@@ -41,4 +41,4 @@ Lastly, the server displays the return value of the function to the user.
 To get more information about the `request` parameter passed to the function,
 please go [here](https://nan8279.github.io/JHTTP/doc/io/github/nan8279/jhttp/request/Request.html).
 
-This project uses Mozilla Rhino to parse JavaScript and Jsoup to parse HTML.
+This project uses Mozilla Rhino to parse JavaScript, Jsoup to parse HTML and IntelliJ GUI designer for the GUI.

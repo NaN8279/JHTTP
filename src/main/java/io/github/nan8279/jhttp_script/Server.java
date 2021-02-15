@@ -1,19 +1,12 @@
 package io.github.nan8279.jhttp_script;
 
 import io.github.nan8279.jhttp.JHTTP;
-import io.github.nan8279.jhttp.request.Request;
-import io.github.nan8279.jhttp.request.RequestHandler;
 import io.github.nan8279.jhttp.response.Response;
 import io.github.nan8279.jhttp.response.response_types.ResponseType;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp_script.script.Script;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,41 +32,8 @@ public class Server {
             }
 
             if (httpScripts.size() != 0) {
-
-                String finalName = name;
-                RequestHandler handler = request -> {
-                    Document documentCopy = document.clone();
-                    Elements httpScriptsCopy = documentCopy.getElementsByTag(
-                            "httpscript");
-
-                    for (Element httpScript : httpScriptsCopy) {
-                        Context context = Context.enter();
-                        String script = httpScript.html();
-
-                        try {
-                            Scriptable scope = context.initStandardObjects();
-                            Function onRequestFunction = context.compileFunction(scope, script,
-                                    finalName, 1, null);
-
-                            Object result = onRequestFunction.call(context, scope, scope,
-                                    new Request[]{request});
-
-                            httpScript.replaceWith(new TextNode(Context.toString(result)));
-                        } catch (Exception exception) {
-                            System.out.println("An error occurred while rendering page " + finalName);
-                            exception.printStackTrace();
-                            return new Response(StatusCode.STATUS_500);
-                        } finally {
-                            Context.exit();
-                        }
-                    }
-                    Response response = new Response(documentCopy.toString());
-                    response.setResponseType(ResponseType.fromExtension(extension));
-
-                    return response;
-                };
-
-                server.getManager().addRequestHandler(handler, prefix + name);
+                server.getManager().addRequestHandler(
+                        new Script(document, extension).getHandler(), prefix + name);
             } else {
                 server.getManager().addRequestHandler(
                         request -> {
@@ -94,7 +54,9 @@ public class Server {
             }
         }
 
-        JHTTP server = new JHTTP(args.length == 0 ? 5000 : Integer.parseInt(args[0]));
+        int port = args.length == 0 ? 5000 : Integer.parseInt(args[0]);
+
+        JHTTP server = new JHTTP(port);
         parseDirectory(pagesDir, server, "/");
         server.run();
     }
