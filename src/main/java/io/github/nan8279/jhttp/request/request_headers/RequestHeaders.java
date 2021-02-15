@@ -3,6 +3,8 @@ package io.github.nan8279.jhttp.request.request_headers;
 import io.github.nan8279.jhttp.client.Client;
 import io.github.nan8279.jhttp.cookies.Cookie;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +27,7 @@ public class RequestHeaders {
         String fullCommand = headers.split("\n")[0];
 
         command = Command.fromString(fullCommand.split(" ")[0]);
-        URI = fullCommand.split(" ")[1];
+        URI = URLDecoder.decode(fullCommand.split(" ")[1], StandardCharsets.UTF_8);
 
         if (getCommand() == Command.GET || getCommand() == Command.HEAD) {
             if (URI.split("\\?").length > 1) {
