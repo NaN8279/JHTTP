@@ -1,5 +1,7 @@
 io.github.nan8279.jhttp
 io.github.nan8279.jhttp_script
+io.github.nan8279.jhttp_script.DOM
+io.github.nan8279.jhttp_script.import_manager
 io.github.nan8279.jhttp_script.script
 io.github.nan8279.jhttp.client
 io.github.nan8279.jhttp.cookies

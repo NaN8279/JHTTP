@@ -1,7 +1,8 @@
 package io.github.nan8279.jhttp_script.import_manager;
 
 public enum SysPackage {
-    FILES("files");
+    FILES("files"),
+    CONSOLE("console");
 
     final private String moduleName;
     SysPackage(String moduleName) {

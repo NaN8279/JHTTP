@@ -5,6 +5,7 @@ import io.github.nan8279.jhttp.request.RequestHandler;
 import io.github.nan8279.jhttp.response.Response;
 import io.github.nan8279.jhttp.response.response_types.ResponseType;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp_script.DOM.DOMDocument;
 import io.github.nan8279.jhttp_script.import_manager.ImportManager;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +21,6 @@ public class Script {
 
     public Script(Document baseDocument, String extension) {
         this.handler = request -> {
-            Console console = new Console();
             Document document = baseDocument.clone();
             Elements httpScripts = document.getElementsByTag("httpscript");
             User user = new User(request.getCookies());
@@ -35,9 +35,6 @@ public class Script {
                     Scriptable scope = context.initStandardObjects();
                     ImportManager importManager = new ImportManager(context, scope);
 
-                    Object wrappedConsole = Context.javaToJS(console, scope);
-                    ScriptableObject.putProperty(scope, "console", wrappedConsole);
-
                     Object wrappedImportManager = Context.javaToJS(importManager, scope);
                     ScriptableObject.putProperty(scope, "importManager", wrappedImportManager);
 
@@ -47,7 +44,7 @@ public class Script {
                     onRequestFunction.call(context, scope, scope,
                             new Object[]{
                                     request,
-                                    document,
+                                    new DOMDocument(document),
                                     user
                             });
 
