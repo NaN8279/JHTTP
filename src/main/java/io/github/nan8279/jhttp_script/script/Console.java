@@ -1,5 +1,7 @@
 package io.github.nan8279.jhttp_script.script;
 
+import org.mozilla.javascript.Context;
+
 import java.util.HashMap;
 
 /**
@@ -31,7 +33,7 @@ public class Console {
         counts.replace(label, 0);
     }
 
-    public void log(String message) {
-        System.out.println(message);
+    public void log(Object message) {
+        System.out.println(Context.toString(message));
     }
 }

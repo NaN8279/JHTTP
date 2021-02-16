@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'io.github.nan8279'
-version '0.4.0'
+version '0.5.0'
 
 repositories {
     mavenCentral()
@@ -17,6 +17,10 @@ dependencies {
 }
 
 jar {
+    from("src/main/resources") {
+        include "*"
+    }
+
     manifest {
         attributes(
                 "Main-Class": "io.github.nan8279.jhttp_script.Server"

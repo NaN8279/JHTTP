@@ -54,6 +54,14 @@ public class Server {
             }
         }
 
+        File moduleDir = new File("./modules");
+        if (!moduleDir.isDirectory()) {
+            if (!moduleDir.mkdirs()) {
+                System.out.println("Couldn't create the pages directory!");
+                return;
+            }
+        }
+
         int port = args.length == 0 ? 5000 : Integer.parseInt(args[0]);
 
         JHTTP server = new JHTTP(port);

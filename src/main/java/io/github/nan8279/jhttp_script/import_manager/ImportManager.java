@@ -1,0 +1,51 @@
+package io.github.nan8279.jhttp_script.import_manager;
+
+import io.github.nan8279.jhttp.response.response_types.ResponseType;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Objects;
+
+public class ImportManager {
+    final private Context context;
+    final private Scriptable scope;
+
+    public ImportManager(Context context, Scriptable scope) {
+        this.context = context;
+        this.scope = scope;
+    }
+
+    public void importModule(String moduleName) throws IOException {
+        String path = SysPackage.getPath(moduleName);
+        String module = null;
+
+        if (path == null) {
+            for (File customModule : Objects.requireNonNull(new File("./modules").listFiles())) {
+                if (customModule.isDirectory()) {
+                    continue;
+                }
+                String name = customModule.getName().split("\\.")[0];
+                String extension = customModule.getName().split("\\.")[1];
+
+                if (ResponseType.fromExtension(extension) == ResponseType.JAVASCRIPT) {
+                    if (name.equals(moduleName)) {
+                        module = Files.readString(customModule.toPath());
+                        break;
+                    }
+                }
+            }
+            if (module == null) {
+                throw new IllegalArgumentException("That module could not have been found.");
+            }
+        } else {
+            InputStream moduleStream = getClass().getResourceAsStream(path);
+            module = new String(moduleStream.readAllBytes());
+        }
+
+        context.evaluateString(scope, module, moduleName, 1, null);
+    }
+}
