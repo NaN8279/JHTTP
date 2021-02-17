@@ -2,6 +2,7 @@ package io.github.nan8279.jhttp.cookies;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * Contains info about a cookie.
@@ -10,6 +11,7 @@ public class Cookie {
     final private String name;
     final private String value;
     private ZonedDateTime expireDate = null;
+    private boolean serverMade = true;
 
     /**
      * Creates a new cookie with expire date.
@@ -33,6 +35,29 @@ public class Cookie {
     public Cookie(String name, String value) {
         this.name = name;
         this.value = value;
+    }
+
+    /**
+     * Creates cookies based off a request header.
+     * Should only be used internally.
+     *
+     * @param requestHeader the request header.
+     * @return the cookie.
+     */
+    public static ArrayList<Cookie> fromRequestHeader(String requestHeader) {
+        String cookieHeader = requestHeader.split(":")[1].trim();
+        ArrayList<Cookie> cookies = new ArrayList<>();
+
+        for (String cookieString : cookieHeader.split(";")) {
+            String name = cookieString.split("=")[0].trim();
+            String value = cookieString.split("=")[1].trim();
+
+            Cookie cookie = new Cookie(name, value);
+            cookie.serverMade = false;
+            cookies.add(cookie);
+        }
+
+        return cookies;
     }
 
     /**
@@ -67,5 +92,12 @@ public class Cookie {
                     "; SameSite=Lax";
         }
         return "Set-Cookie: " + getName() + "=" + getValue() + "; SameSite=Lax";
+    }
+
+    /**
+     * @return true when the cookie is made by the server / program.
+     */
+    public boolean isServerMade() {
+        return serverMade;
     }
 }

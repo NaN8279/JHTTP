@@ -1,4 +1,4 @@
-package io.github.nan8279.jhttp.request.request_headers;
+package io.github.nan8279.jhttp.request.raw_request;
 
 /**
  * HTTP Protocols.

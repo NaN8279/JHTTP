@@ -91,6 +91,8 @@ public class Response {
     }
 
     /**
+     * Should only be used internally.
+     *
      * @return the cookies that will be sent with this response
      */
     public ArrayList<Cookie> getCookies() {
@@ -98,6 +100,8 @@ public class Response {
     }
 
     /**
+     * Should only be used internally.
+     *
      * @param cookie adds a cookie to this response.
      */
     public void setCookie(Cookie cookie) {

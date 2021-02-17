@@ -2,7 +2,7 @@ package io.github.nan8279.jhttp.request;
 
 import io.github.nan8279.jhttp.client.Client;
 import io.github.nan8279.jhttp.cookies.Cookie;
-import io.github.nan8279.jhttp.request.request_headers.RequestHeaders;
+import io.github.nan8279.jhttp.request.raw_request.RawRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.HashMap;
  * A HTTP request.
  */
 public abstract class Request {
-    final private RequestHeaders headers;
+    final private RawRequest headers;
     final private Client client;
     final private ArrayList<Cookie> cookies = new ArrayList<>();
 
@@ -20,7 +20,7 @@ public abstract class Request {
      * @param cookies the cookies the user has.
      * @param client the client that is requesting.
      */
-    public Request(RequestHeaders headers, ArrayList<Cookie> cookies, Client client) {
+    public Request(RawRequest headers, ArrayList<Cookie> cookies, Client client) {
         this.headers = headers;
         this.cookies.addAll(cookies);
         this.client = client;
@@ -29,20 +29,26 @@ public abstract class Request {
     /**
      * @return the request headers.
      */
-    public RequestHeaders getHeaders() {
+    public RawRequest getHeaders() {
         return headers;
     }
 
     /**
+     * Will be removed in next update.
+     *
      * @return the cookies the user has.
      */
+    @Deprecated
     public ArrayList<Cookie> getCookies() {
         return cookies;
     }
 
     /**
+     * Will be removed in next update.
+     *
      * @return a HashMap containing the cookies the user has.
      */
+    @Deprecated
     public HashMap<String, String> getCookieHashmap() {
         HashMap<String, String> cookieHashmap = new HashMap<>();
 

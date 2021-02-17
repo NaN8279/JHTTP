@@ -2,9 +2,9 @@ package io.github.nan8279.jhttp.request;
 
 import io.github.nan8279.jhttp.JHTTP;
 import io.github.nan8279.jhttp.client.Client;
-import io.github.nan8279.jhttp.request.request_headers.Command;
-import io.github.nan8279.jhttp.request.request_headers.Protocol;
-import io.github.nan8279.jhttp.request.request_headers.RequestHeaders;
+import io.github.nan8279.jhttp.request.raw_request.Command;
+import io.github.nan8279.jhttp.request.raw_request.Protocol;
+import io.github.nan8279.jhttp.request.raw_request.RawRequest;
 import io.github.nan8279.jhttp.request.request_types.GetRequest;
 import io.github.nan8279.jhttp.request.request_types.PostRequest;
 import io.github.nan8279.jhttp.response.Response;
@@ -52,7 +52,7 @@ public class RequestManager {
      * @param client the client.
      * @return the HTTP response.
      */
-    public Response parseRequest(RequestHeaders request, Client client) {
+    public Response parseRequest(RawRequest request, Client client) {
         Response response;
 
         if (request.getProtocol() == Protocol.HTTP_1) {
@@ -62,9 +62,9 @@ public class RequestManager {
         }
 
         if (request.getCommand() == Command.GET || request.getCommand() == Command.HEAD) {
-            response = this.parseRequest(new GetRequest(request, client.getCookies(), client));
+            response = this.parseRequest(new GetRequest(request, client.getCookies(false), client));
         } else if (request.getCommand() == Command.POST) {
-            response = this.parseRequest(new PostRequest(request, client.getCookies(), client));
+            response = this.parseRequest(new PostRequest(request, client.getCookies(false), client));
         } else {
             return new Response(StatusCode.STATUS_501);
         }
