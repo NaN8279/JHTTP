@@ -4,7 +4,7 @@ io.github.nan8279.jhttp.cookies
 io.github.nan8279.jhttp.exceptions
 io.github.nan8279.jhttp.logger
 io.github.nan8279.jhttp.request
-io.github.nan8279.jhttp.request.request_headers
+io.github.nan8279.jhttp.request.raw_request
 io.github.nan8279.jhttp.request.request_types
 io.github.nan8279.jhttp.response
 io.github.nan8279.jhttp.response.response_types

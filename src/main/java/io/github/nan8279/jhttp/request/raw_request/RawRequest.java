@@ -1,4 +1,4 @@
-package io.github.nan8279.jhttp.request.request_headers;
+package io.github.nan8279.jhttp.request.raw_request;
 
 import io.github.nan8279.jhttp.client.Client;
 import io.github.nan8279.jhttp.cookies.Cookie;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Contains info about a HTTP request.
  */
-public class RequestHeaders {
+public class RawRequest {
     final private Command command;
     final private Protocol protocol;
     final private String headers;
@@ -22,7 +22,7 @@ public class RequestHeaders {
      * @param headers the headers given in the request.
      * @param payload the payload given in the request.
      */
-    public RequestHeaders(String headers, String payload) {
+    public RawRequest(String headers, String payload) {
         this.headers = headers;
         String fullCommand = headers.split("\n")[0];
 
@@ -44,19 +44,14 @@ public class RequestHeaders {
 
         for (String header : headers.split("\n")) {
             if (header.startsWith("Cookie: ")) {
-                String cookieHeader = header.split(":")[1].trim();
-                for (String cookie : cookieHeader.split(";")) {
-                    String name = cookie.split("=")[0].trim();
-                    String value = cookie.split("=")[1].trim();
-                    cookies.add(new Cookie(name, value));
-                }
+                cookies.addAll(Cookie.fromRequestHeader(header));
             }
         }
     }
 
     /**
      * This should only be used internally.
-     * Use {@link Client#getCookies()} instead.
+     * Use {@link Client#getCookies(boolean)} instead.
      *
      * @return the cookies the client gave.
      */
