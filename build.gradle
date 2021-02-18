@@ -4,14 +4,14 @@ plugins {
 }
 
 group 'io.github.nan8279'
-version '0.5.0'
+version '0.7.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile files("libs/rhino-1.7.13.jar")
+    implementation group: 'org.graalvm.js', name: 'js', version: '21.0.0.2'
     compile files("libs/jsoup-1.13.1.jar")
     compile group: 'org.apache.commons', name: 'commons-text', version: '1.9'
 }

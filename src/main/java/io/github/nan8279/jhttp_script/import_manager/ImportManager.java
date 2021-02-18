@@ -1,8 +1,8 @@
 package io.github.nan8279.jhttp_script.import_manager;
 
 import io.github.nan8279.jhttp.response.response_types.ResponseType;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
+import io.github.nan8279.jhttp_script.script.Script;
+import org.graalvm.polyglot.Context;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,11 +12,11 @@ import java.util.Objects;
 
 public class ImportManager {
     final private Context context;
-    final private Scriptable scope;
+    final private Script script;
 
-    public ImportManager(Context context, Scriptable scope) {
+    public ImportManager(Context context, Script script) {
         this.context = context;
-        this.scope = scope;
+        this.script = script;
     }
 
     public void importModule(String moduleName) throws IOException {
@@ -46,6 +46,8 @@ public class ImportManager {
             module = new String(moduleStream.readAllBytes());
         }
 
-        context.evaluateString(scope, module, moduleName, 1, null);
+        script.setExecutingModule(true);
+        context.eval("js", module);
+        script.setExecutingModule(false);
     }
 }

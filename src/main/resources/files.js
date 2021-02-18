@@ -1,10 +1,15 @@
+Files = Java.type("java.nio.file.Files");
+Path = Java.type("java.nio.file.Path");
+Charset = Java.type("java.nio.charset.Charset");
+StandardOpenOption = Java.type("java.nio.file.StandardOpenOption");
+
 function readFile(path) {
-    return java.nio.file.Files.readString(java.nio.file.Path.of(path));
+    return Files.readString(Path.of(path));
 }
 
 function writeFile(path, text) {
-    java.nio.file.Files.writeString(java.nio.file.Path.of(path),
-                                        text,
-                                        java.nio.charset.Charset.forName("UTF-8"),
-                                        java.nio.file.StandardOpenOption.CREATE);
+    Files.writeString(Path.of(path),
+                        text,
+                        Charset.forName("UTF-8"),
+                        StandardOpenOption.CREATE);
 }

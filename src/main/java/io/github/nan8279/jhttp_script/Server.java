@@ -1,3 +1,12 @@
+// Made by 14 year old NaN8279
+// |    |    |
+// |    |    |
+// |    |    |
+// |     ----|
+// |         |
+// |         |
+// |         |
+
 package io.github.nan8279.jhttp_script;
 
 import io.github.nan8279.jhttp.JHTTP;
