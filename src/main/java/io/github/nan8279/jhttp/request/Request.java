@@ -34,32 +34,6 @@ public abstract class Request {
     }
 
     /**
-     * Will be removed in next update.
-     *
-     * @return the cookies the user has.
-     */
-    @Deprecated
-    public ArrayList<Cookie> getCookies() {
-        return cookies;
-    }
-
-    /**
-     * Will be removed in next update.
-     *
-     * @return a HashMap containing the cookies the user has.
-     */
-    @Deprecated
-    public HashMap<String, String> getCookieHashmap() {
-        HashMap<String, String> cookieHashmap = new HashMap<>();
-
-        for (Cookie cookie : cookies) {
-            cookieHashmap.put(cookie.getName(), cookie.getValue());
-        }
-
-        return cookieHashmap;
-    }
-
-    /**
      * @return the data given in the HTTP request.
      */
     public HashMap<String, String> getData() {

@@ -97,8 +97,45 @@ public class Client extends Thread {
      * Return the response in a request handler instead.
      *
      * @param response the response to send.
+     * @param log if the response should be logged.
      */
-    public void sendResponse(Response response) {
+    public void sendResponse(Response response, boolean log) {
+        if (log) {
+            Logger.logRequest(response, null, this);
+        }
+
+        for (Cookie cookie : cookies) {
+            if (cookie.isServerMade()) {
+                response.setCookie(cookie);
+            }
+        }
+
+        try {
+            output.write(response.toString());
+            output.flush();
+
+            output.close();
+            input.close();
+
+            socket.close();
+            this.interrupt();
+        } catch (IOException ignored) {}
+    }
+
+    /**
+     * This should only be used in special cases, since it interrupts the connection with the client.
+     * Return the response in a request handler instead.
+     * The difference between this method and {@link Client#sendResponse(Response, boolean)} is that this also logs the request.
+     *
+     * @param response the response to send.
+     * @param request the request the client made.
+     * @param log if the response should be logged.
+     */
+    public void sendResponse(Response response, RawRequest request, boolean log) {
+        if (log) {
+            Logger.logRequest(response, request, this);
+        }
+
         for (Cookie cookie : cookies) {
             if (cookie.isServerMade()) {
                 response.setCookie(cookie);
@@ -124,7 +161,7 @@ public class Client extends Thread {
      * @throws IOException when an error occurs while handling the client.
      */
     public void handleClient() throws IOException {
-        RawRequest rawRequest;
+        RawRequest rawRequest = null;
 
         String request;
         String payload;
@@ -151,6 +188,7 @@ public class Client extends Thread {
         }
 
         Response response;
+        boolean hasLogged = false;
 
         try {
             rawRequest = new RawRequest(request, payload);
@@ -158,18 +196,17 @@ public class Client extends Thread {
 
             try {
                 response = manager.parseRequest(rawRequest, this);
-                Logger.logRequest(response, rawRequest, this);
             } catch (Exception exception) {
                 response = new Response(StatusCode.STATUS_500);
                 Logger.logRequest(response, rawRequest, this, exception);
+                hasLogged = true;
             }
 
         } catch (ArrayIndexOutOfBoundsException exception) {
             response = new Response(StatusCode.STATUS_400);
-            Logger.logRequest(response, null, this);
         }
 
-        sendResponse(response);
+        sendResponse(response, rawRequest, !hasLogged);
     }
 
     /**
