@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
  * Should only be used internally.
  */
 public class Logger {
+    final private static System.Logger logger = System.getLogger("JHTTP");
 
     /**
      * Logs a HTTP request.
@@ -22,13 +23,13 @@ public class Logger {
      */
     public static void logRequest(Response response, RawRequest request, Client client) {
         if (request == null) {
-            System.out.println("[" + client.getIP() + "] " +
+            logger.log(System.Logger.Level.INFO, "[" + client.getIP() + "] " +
                     ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + " - "
                     + response.getStatus().getStatusCode());
             return;
         }
 
-        System.out.println("[" + client.getIP() + "] " +
+        logger.log(System.Logger.Level.INFO, "[" + client.getIP() + "] " +
                 ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + " - " + request.getCommand() +
                 " " + request.getURI() + " - " + response.getStatus().getStatusCode());
     }
@@ -44,5 +45,9 @@ public class Logger {
     public static void logRequest(Response response, RawRequest request, Client client, Exception exception) {
         logRequest(response, request, client);
         exception.printStackTrace();
+    }
+
+    public static void logStartUp(int port) {
+        logger.log(System.Logger.Level.INFO, "JHTTP server now up on port " + port);
     }
 }
