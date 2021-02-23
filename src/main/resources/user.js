@@ -23,6 +23,6 @@ function User(request) {
     }
 
     this.redirect = function(url) {
-        request.getClient().sendResponse(new RedirectResponse(url, StatusCode.STATUS_302));
+        request.getClient().sendResponse(new RedirectResponse(url, StatusCode.STATUS_302), true);
     }
 }

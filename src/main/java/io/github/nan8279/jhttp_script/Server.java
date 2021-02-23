@@ -30,8 +30,14 @@ public class Server {
                 continue;
             }
 
+            ResponseType type = ResponseType.fromFile(page.getPath());
+            if (type != ResponseType.HTM && type != ResponseType.HTML) {
+                server.getManager().addRequestHandler(request -> Response.renderTemplate(page.getPath()),
+                        prefix + page.getName());
+                continue;
+            }
+
             String name = page.getName();
-            String extension = page.getName().split("\\.")[1];
 
             Document document = Jsoup.parse(page, "UTF-8");
             Elements httpScripts = document.getElementsByTag("httpscript");
@@ -42,14 +48,10 @@ public class Server {
 
             if (httpScripts.size() != 0) {
                 server.getManager().addRequestHandler(
-                        new Script(document, extension).getHandler(), prefix + name);
+                        new Script(document, type.getExtension()).getHandler(), prefix + name);
             } else {
                 server.getManager().addRequestHandler(
-                        request -> {
-                                Response response = Response.renderTemplate(page.getPath());
-                                response.setResponseType(ResponseType.fromExtension(extension));
-                                return response;
-                            }, prefix + name);
+                        request -> Response.renderTemplate(page.getPath()), prefix + name);
             }
         }
     }
