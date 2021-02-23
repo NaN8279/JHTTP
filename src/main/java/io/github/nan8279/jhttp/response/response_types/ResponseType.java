@@ -111,4 +111,8 @@ public enum ResponseType {
         }
         return ResponseType.BINARY_DATA;
     }
+
+    public static ResponseType fromFile(String path) {
+        return fromExtension(path.split("\\.")[path.split("\\.").length - 1]);
+    }
 }

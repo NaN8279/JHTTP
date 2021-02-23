@@ -1,6 +1,7 @@
 package io.github.nan8279.jhttp;
 
 import io.github.nan8279.jhttp.client.Client;
+import io.github.nan8279.jhttp.logger.Logger;
 import io.github.nan8279.jhttp.request.RequestManager;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class JHTTP {
      * @throws IOException when a problem with creating the HTTP server socket occurs.
      */
     public void run() throws IOException {
+        Logger.logStartUp(port);
         while (!stopping) {
             ServerSocket serverSocket = new ServerSocket(getPort());
             Socket clientSocket = serverSocket.accept();

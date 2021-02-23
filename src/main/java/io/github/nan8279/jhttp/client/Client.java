@@ -5,11 +5,13 @@ import io.github.nan8279.jhttp.logger.Logger;
 import io.github.nan8279.jhttp.request.raw_request.RawRequest;
 import io.github.nan8279.jhttp.request.RequestManager;
 import io.github.nan8279.jhttp.response.Response;
+import io.github.nan8279.jhttp.response.special_responses.FileResponse;
 import io.github.nan8279.jhttp.response.status_code.StatusCode;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +20,7 @@ import java.util.HashMap;
  */
 public class Client extends Thread {
     final private BufferedReader input;
-    final private PrintWriter output;
+    final private DataOutputStream output;
     final private Socket socket;
     final private RequestManager manager;
     final private ArrayList<Cookie> cookies = new ArrayList<>();
@@ -33,7 +35,7 @@ public class Client extends Thread {
      */
     public Client(Socket socket, RequestManager manager) throws IOException {
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        output = new PrintWriter(socket.getOutputStream(), true);
+        output = new DataOutputStream(socket.getOutputStream());
         this.socket = socket;
         this.manager = manager;
     }
@@ -111,7 +113,12 @@ public class Client extends Thread {
         }
 
         try {
-            output.write(response.toString());
+            output.write(response.getBytes());
+
+            if (response instanceof FileResponse) {
+                output.write(((FileResponse) response).getFileData());
+            }
+
             output.flush();
 
             output.close();
@@ -143,7 +150,13 @@ public class Client extends Thread {
         }
 
         try {
-            output.write(response.toString());
+            output.write(response.getBytes());
+
+            if (response instanceof FileResponse) {
+                output.write("\r\n\r\n".getBytes(StandardCharsets.UTF_8));
+                output.write(((FileResponse) response).getFileData());
+            }
+
             output.flush();
 
             output.close();
