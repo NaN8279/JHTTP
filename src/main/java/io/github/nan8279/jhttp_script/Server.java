@@ -11,7 +11,7 @@ package io.github.nan8279.jhttp_script;
 
 import io.github.nan8279.jhttp.JHTTP;
 import io.github.nan8279.jhttp.response.Response;
-import io.github.nan8279.jhttp.response.response_types.ResponseType;
+import io.github.nan8279.jhttp.response.types.FileType;
 import io.github.nan8279.jhttp_script.script.Script;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,8 +30,8 @@ public class Server {
                 continue;
             }
 
-            ResponseType type = ResponseType.fromFile(page.getPath());
-            if (type != ResponseType.HTM && type != ResponseType.HTML) {
+            FileType type = FileType.fromFile(page.getPath());
+            if (type != FileType.HTM && type != FileType.HTML) {
                 server.getManager().addRequestHandler(request -> Response.renderTemplate(page.getPath()),
                         prefix + page.getName());
                 continue;

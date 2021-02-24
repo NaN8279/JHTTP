@@ -17,7 +17,7 @@ public class DOMAttribute {
         return attribute.getValue();
     }
 
-    public void setValue(String value) {
-        attribute.setValue(value);
+    public void setValue(Object value) {
+        attribute.setValue(value.toString());
     }
 }

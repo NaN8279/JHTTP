@@ -27,16 +27,16 @@ public class DOMElement extends DOMNode {
         return element.id();
     }
 
-    public void setId(String id) {
-        element.attr("id", id);
+    public void setId(Object id) {
+        element.attr("id", id.toString());
     }
 
     public String getInnerHTML() {
         return element.html();
     }
 
-    public void setInnerHTML(String innerHTML) {
-        element.html(innerHTML);
+    public void setInnerHTML(Object innerHTML) {
+        element.html(innerHTML.toString());
     }
 
     public String getOuterHTML() {
@@ -47,8 +47,8 @@ public class DOMElement extends DOMNode {
         return element.tagName();
     }
 
-    public String getAttribute(String name) {
-        return element.attr(name);
+    public String getAttribute(Object name) {
+        return element.attr(name.toString());
     }
 
     public String[] getAttributeNames() {
@@ -63,53 +63,53 @@ public class DOMElement extends DOMNode {
         return attributeNames;
     }
 
-    public DOMElement[] getElementsByClassName(String className) {
-        DOMElement[] elements = new DOMElement[element.getElementsByClass(className).size()];
+    public DOMElement[] getElementsByClassName(Object className) {
+        DOMElement[] elements = new DOMElement[element.getElementsByClass(className.toString()).size()];
 
         int i = 0;
-        for (Element childElement : element.getElementsByClass(className)) {
+        for (Element childElement : element.getElementsByClass(className.toString())) {
             elements[i] = new DOMElement(childElement);
         }
 
         return elements;
     }
 
-    public DOMElement[] getElementsByTagName(String tagName) {
-        DOMElement[] elements = new DOMElement[element.getElementsByTag(tagName).size()];
+    public DOMElement[] getElementsByTagName(Object tagName) {
+        DOMElement[] elements = new DOMElement[element.getElementsByTag(tagName.toString()).size()];
 
         int i = 0;
-        for (Element childElement : element.getElementsByTag(tagName)) {
+        for (Element childElement : element.getElementsByTag(tagName.toString())) {
             elements[i] = new DOMElement(childElement);
         }
 
         return elements;
     }
 
-    public boolean hasAttribute(String name) {
-        return Arrays.asList(getAttributeNames()).contains(name);
+    public boolean hasAttribute(Object name) {
+        return Arrays.asList(getAttributeNames()).contains(name.toString());
     }
 
-    public DOMNode querySelector(String selector) {
-        return new DOMNode(element.selectFirst(selector));
+    public DOMNode querySelector(Object selector) {
+        return new DOMNode(element.selectFirst(selector.toString()));
     }
 
-    public DOMNode[] querySelectorAll(String selector) {
-        DOMNode[] nodes = new DOMNode[element.select(selector).size()];
+    public DOMNode[] querySelectorAll(Object selector) {
+        DOMNode[] nodes = new DOMNode[element.select(selector.toString()).size()];
 
         int i = 0;
-        for (Node childNode : element.select(selector)) {
+        for (Node childNode : element.select(selector.toString())) {
             nodes[i] = new DOMNode(childNode);
         }
 
         return nodes;
     }
 
-    public void removeAttribute(String name) {
-        element.removeAttr(name);
+    public void removeAttribute(Object name) {
+        element.removeAttr(name.toString());
     }
 
-    public void setAttribute(String name, String value) {
-        element.attr(name, value);
+    public void setAttribute(Object name, Object value) {
+        element.attr(name.toString(), value.toString());
     }
 
 

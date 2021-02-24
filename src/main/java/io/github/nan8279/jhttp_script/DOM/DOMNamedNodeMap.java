@@ -14,26 +14,26 @@ public class DOMNamedNodeMap {
         return attributes.size();
     }
 
-    public DOMAttribute getNamedItem(String name) {
+    public DOMAttribute getNamedItem(Object name) {
         for (Attribute attribute : attributes) {
-            if (attribute.getKey().equals(name)) {
+            if (attribute.getKey().equals(name.toString())) {
                 return new DOMAttribute(attribute);
             }
         }
         return null;
     }
 
-    public void setNamedItem(String name, String value) {
+    public void setNamedItem(Object name, Object value) {
         for (Attribute attribute : attributes) {
-            if (attribute.getKey().equals(name)) {
-                attribute.setValue(value);
+            if (attribute.getKey().equals(name.toString())) {
+                attribute.setValue(value.toString());
                 return;
             }
         }
-        attributes.add(name, value);
+        attributes.add(name.toString(), value.toString());
     }
 
-    public void removeNamedItem(String name) {
-        attributes.remove(name);
+    public void removeNamedItem(Object name) {
+        attributes.remove(name.toString());
     }
 }

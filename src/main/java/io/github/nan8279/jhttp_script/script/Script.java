@@ -2,8 +2,8 @@ package io.github.nan8279.jhttp_script.script;
 
 import io.github.nan8279.jhttp.request.RequestHandler;
 import io.github.nan8279.jhttp.response.Response;
-import io.github.nan8279.jhttp.response.response_types.ResponseType;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.response.types.FileType;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 import io.github.nan8279.jhttp_script.DOM.DOMDocument;
 import io.github.nan8279.jhttp_script.import_manager.ImportManager;
 import org.graalvm.polyglot.Context;
@@ -47,7 +47,7 @@ public class Script {
                 }
             }
             Response response = new Response(document.toString());
-            response.setResponseType(ResponseType.fromExtension(extension));
+            response.setResponseType(FileType.fromExtension(extension));
 
             return response;
         };

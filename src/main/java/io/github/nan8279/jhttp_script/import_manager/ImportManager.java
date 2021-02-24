@@ -1,6 +1,6 @@
 package io.github.nan8279.jhttp_script.import_manager;
 
-import io.github.nan8279.jhttp.response.response_types.ResponseType;
+import io.github.nan8279.jhttp.response.types.FileType;
 import io.github.nan8279.jhttp_script.script.Script;
 import org.graalvm.polyglot.Context;
 
@@ -31,7 +31,7 @@ public class ImportManager {
                 String name = customModule.getName().split("\\.")[0];
                 String extension = customModule.getName().split("\\.")[1];
 
-                if (ResponseType.fromExtension(extension) == ResponseType.JAVASCRIPT) {
+                if (FileType.fromExtension(extension) == FileType.JAVASCRIPT) {
                     if (name.equals(moduleName)) {
                         module = Files.readString(customModule.toPath());
                         break;

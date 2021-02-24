@@ -51,49 +51,49 @@ public class DOMDocument extends DOMNode {
         return document.title();
     }
 
-    public void setTitle(String title) {
-        document.title(title);
+    public void setTitle(Object title) {
+        document.title(title.toString());
     }
 
-    public DOMElement createElement(String tagName) {
-        return new DOMElement(document.createElement(tagName));
+    public DOMElement createElement(Object tagName) {
+        return new DOMElement(document.createElement(tagName.toString()));
     }
 
-    public DOMElement[] getElementsByClassName(String className) {
-        DOMElement[] elements = new DOMElement[document.getElementsByClass(className).size()];
+    public DOMElement[] getElementsByClassName(Object className) {
+        DOMElement[] elements = new DOMElement[document.getElementsByClass(className.toString()).size()];
 
         int i = 0;
-        for (Element childElement : document.getElementsByClass(className)) {
+        for (Element childElement : document.getElementsByClass(className.toString())) {
             elements[i] = new DOMElement(childElement);
         }
 
         return elements;
     }
 
-    public DOMElement[] getElementsByTagName(String tagName) {
-        DOMElement[] elements = new DOMElement[document.getElementsByTag(tagName).size()];
+    public DOMElement[] getElementsByTagName(Object tagName) {
+        DOMElement[] elements = new DOMElement[document.getElementsByTag(tagName.toString()).size()];
 
         int i = 0;
-        for (Element childElement : document.getElementsByTag(tagName)) {
+        for (Element childElement : document.getElementsByTag(tagName.toString())) {
             elements[i] = new DOMElement(childElement);
         }
 
         return elements;
     }
 
-    public DOMElement getElementById(String id) {
-        return new DOMElement(document.getElementById(id));
+    public DOMElement getElementById(Object id) {
+        return new DOMElement(document.getElementById(id.toString()));
     }
 
-    public DOMNode querySelector(String selector) {
-        return new DOMNode(document.selectFirst(selector));
+    public DOMNode querySelector(Object selector) {
+        return new DOMNode(document.selectFirst(selector.toString()));
     }
 
-    public DOMNode[] querySelectorAll(String selector) {
-        DOMNode[] nodes = new DOMNode[document.select(selector).size()];
+    public DOMNode[] querySelectorAll(Object selector) {
+        DOMNode[] nodes = new DOMNode[document.select(selector.toString()).size()];
 
         int i = 0;
-        for (Node childNode : document.select(selector)) {
+        for (Node childNode : document.select(selector.toString())) {
             nodes[i] = new DOMNode(childNode);
         }
 
