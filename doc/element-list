@@ -1,0 +1,13 @@
+io.github.nan8279.jhttp
+io.github.nan8279.jhttp.client
+io.github.nan8279.jhttp.cookie
+io.github.nan8279.jhttp.exception
+io.github.nan8279.jhttp.logger
+io.github.nan8279.jhttp.request
+io.github.nan8279.jhttp.request.raw
+io.github.nan8279.jhttp.request.types
+io.github.nan8279.jhttp.response
+io.github.nan8279.jhttp.response.code
+io.github.nan8279.jhttp.response.header
+io.github.nan8279.jhttp.response.special
+io.github.nan8279.jhttp.response.types

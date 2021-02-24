@@ -1,15 +1,17 @@
 package io.github.nan8279.jhttp.response;
 
-import io.github.nan8279.jhttp.cookies.Cookie;
-import io.github.nan8279.jhttp.response.response_types.ResponseType;
-import io.github.nan8279.jhttp.response.special_responses.FileResponse;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.cookie.Cookie;
+import io.github.nan8279.jhttp.response.header.ResponseHeader;
+import io.github.nan8279.jhttp.response.types.FileType;
+import io.github.nan8279.jhttp.response.special.FileResponse;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class Response {
@@ -56,11 +58,12 @@ public class Response {
             """;
 
     final private ArrayList<Cookie> cookies = new ArrayList<>();
-    final protected StatusCode status;
-    protected ResponseType responseType = ResponseType.HTML;
+    final private StatusCode status;
+    final private boolean addCharset = true;
+    final private int dataLength;
     protected String data;
-    protected boolean addCharset = true;
-    protected int dataLength = 0;
+    protected ResponseHeader responseHeader;
+    private FileType fileType = FileType.HTML;
 
     /**
      * A HTTP response.
@@ -71,6 +74,16 @@ public class Response {
     public Response(StatusCode status, String data) {
         this.status = status;
         this.data = data;
+        dataLength = data.length();
+
+        responseHeader = new ResponseHeader(
+                ZonedDateTime.now(),
+                getCookies().toArray(new Cookie[0]),
+                status,
+                fileType,
+                dataLength,
+                addCharset
+        );
     }
 
     /**
@@ -81,6 +94,16 @@ public class Response {
     public Response(StatusCode status) {
         this.status = status;
         data = generateDefaultData(status);
+        dataLength = data.length();
+
+        responseHeader = new ResponseHeader(
+                ZonedDateTime.now(),
+                getCookies().toArray(new Cookie[0]),
+                status,
+                fileType,
+                dataLength,
+                addCharset
+        );
     }
 
     /**
@@ -91,6 +114,16 @@ public class Response {
     public Response(String data) {
         status = StatusCode.STATUS_200;
         this.data = data;
+        dataLength = data.length();
+
+        responseHeader = new ResponseHeader(
+                ZonedDateTime.now(),
+                getCookies().toArray(new Cookie[0]),
+                status,
+                fileType,
+                dataLength,
+                addCharset
+        );
     }
 
     /**
@@ -149,25 +182,7 @@ public class Response {
      * @return the response to send to the user.
      */
     protected String generateResponse() {
-        if (dataLength == 0) {
-            dataLength = data.length();
-        }
-
-        StringBuilder response =
-                new StringBuilder("HTTP/1.1" + " " + status.getStatusCode() + " " + status.getStatusMessage() + "\r\n" +
-                        "Connection: Closed\r\n" +
-                        "Server: JHTTP/1.0\r\n" +
-                        "Content-Length: " + dataLength + "\r\n" +
-                        "Content-Type: " + responseType.getMIMEString());
-
-        if (addCharset) {
-            response.append("; charset=utf-8");
-        }
-
-        for (Cookie cookie : getCookies()) {
-            response.append("\r\n");
-            response.append(cookie.toString());
-        }
+        StringBuilder response = new StringBuilder(responseHeader.toString());
 
         if (data != null) {
             response.append("\r\n");
@@ -186,9 +201,9 @@ public class Response {
      */
     public static Response renderTemplate(String path) {
         try {
-            ResponseType responseType = ResponseType.fromFile(path);
+            FileType fileType = FileType.fromFile(path);
 
-            if (responseType != ResponseType.HTM && responseType != ResponseType.HTML) {
+            if (fileType != FileType.HTM && fileType != FileType.HTML) {
                 return new FileResponse(new File(path));
             }
 
@@ -198,7 +213,7 @@ public class Response {
             String[] name = new File(path).getName().split("\\.");
             String extension = name[name.length - 1];
 
-            response.setResponseType(responseType);
+            response.setResponseType(fileType);
             return new Response(data);
         } catch (IOException exception) {
             return new Response(StatusCode.STATUS_404);
@@ -208,16 +223,16 @@ public class Response {
     /**
      * Sets the response type of the response.
      *
-     * @param responseType the response type.
+     * @param fileType the response type.
      */
-    public void setResponseType(ResponseType responseType) {
-        this.responseType = responseType;
+    public void setResponseType(FileType fileType) {
+        this.fileType = fileType;
     }
 
     /**
      * @return the response type given in this response.
      */
-    public ResponseType getResponseType() {
-        return responseType;
+    public FileType getResponseType() {
+        return fileType;
     }
 }
