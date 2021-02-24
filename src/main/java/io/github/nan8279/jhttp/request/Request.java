@@ -1,8 +1,8 @@
 package io.github.nan8279.jhttp.request;
 
 import io.github.nan8279.jhttp.client.Client;
-import io.github.nan8279.jhttp.cookies.Cookie;
-import io.github.nan8279.jhttp.request.raw_request.RawRequest;
+import io.github.nan8279.jhttp.cookie.Cookie;
+import io.github.nan8279.jhttp.request.raw.RawRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

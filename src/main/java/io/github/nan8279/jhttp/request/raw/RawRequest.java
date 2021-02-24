@@ -1,11 +1,12 @@
-package io.github.nan8279.jhttp.request.raw_request;
+package io.github.nan8279.jhttp.request.raw;
 
 import io.github.nan8279.jhttp.client.Client;
-import io.github.nan8279.jhttp.cookies.Cookie;
+import io.github.nan8279.jhttp.cookie.Cookie;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Contains info about a HTTP request.
@@ -16,6 +17,7 @@ public class RawRequest {
     final private String headers;
     final private ArrayList<Cookie> cookies = new ArrayList<>();
     final private String data;
+    final private HashMap<String, String> additionalHeaders = new HashMap<>();
     private String URI;
 
     /**
@@ -45,6 +47,10 @@ public class RawRequest {
         for (String header : headers.split("\n")) {
             if (header.startsWith("Cookie: ")) {
                 cookies.addAll(Cookie.fromRequestHeader(header));
+            } else {
+                try {
+                    additionalHeaders.put(header.split(":")[0], header.split(":")[1]);
+                } catch (ArrayIndexOutOfBoundsException ignored) {}
             }
         }
     }
@@ -95,5 +101,12 @@ public class RawRequest {
      */
     public String getData() {
         return data;
+    }
+
+    /**
+     * @return headers that have not been parsed.
+     */
+    public HashMap<String, String> getAdditionalHeaders() {
+        return additionalHeaders;
     }
 }

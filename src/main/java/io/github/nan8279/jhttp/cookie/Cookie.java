@@ -1,4 +1,4 @@
-package io.github.nan8279.jhttp.cookies;
+package io.github.nan8279.jhttp.cookie;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

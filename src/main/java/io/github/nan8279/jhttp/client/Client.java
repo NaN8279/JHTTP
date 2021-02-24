@@ -1,12 +1,12 @@
 package io.github.nan8279.jhttp.client;
 
-import io.github.nan8279.jhttp.cookies.Cookie;
-import io.github.nan8279.jhttp.logger.Logger;
-import io.github.nan8279.jhttp.request.raw_request.RawRequest;
+import io.github.nan8279.jhttp.cookie.Cookie;
+import io.github.nan8279.jhttp.logger.JHTTPLogger;
+import io.github.nan8279.jhttp.request.raw.RawRequest;
 import io.github.nan8279.jhttp.request.RequestManager;
 import io.github.nan8279.jhttp.response.Response;
-import io.github.nan8279.jhttp.response.special_responses.FileResponse;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.response.special.FileResponse;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 
 import java.io.*;
 import java.net.Socket;
@@ -103,7 +103,7 @@ public class Client extends Thread {
      */
     public void sendResponse(Response response, boolean log) {
         if (log) {
-            Logger.logRequest(response, null, this);
+            JHTTPLogger.logRequest(response, null, this);
         }
 
         for (Cookie cookie : cookies) {
@@ -140,7 +140,7 @@ public class Client extends Thread {
      */
     public void sendResponse(Response response, RawRequest request, boolean log) {
         if (log) {
-            Logger.logRequest(response, request, this);
+            JHTTPLogger.logRequest(response, request, this);
         }
 
         for (Cookie cookie : cookies) {
@@ -211,7 +211,7 @@ public class Client extends Thread {
                 response = manager.parseRequest(rawRequest, this);
             } catch (Exception exception) {
                 response = new Response(StatusCode.STATUS_500);
-                Logger.logRequest(response, rawRequest, this, exception);
+                JHTTPLogger.logRequest(response, rawRequest, this, exception);
                 hasLogged = true;
             }
 

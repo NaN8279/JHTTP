@@ -1,8 +1,8 @@
-package io.github.nan8279.jhttp.response.special_responses;
+package io.github.nan8279.jhttp.response.special;
 
 import io.github.nan8279.jhttp.response.Response;
-import io.github.nan8279.jhttp.response.response_types.ResponseType;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.response.types.FileType;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +20,13 @@ public class FileResponse extends Response {
      */
     public FileResponse(File file) throws IOException {
         super(StatusCode.STATUS_200);
+        fileData = Files.readAllBytes(file.toPath());
+
+        responseHeader.setResponseType(FileType.fromFile(file.getPath()));
+        responseHeader.setResponseLength(fileData.length);
+        responseHeader.setAddCharset(false);
 
         data = null;
-        fileData = Files.readAllBytes(file.toPath());
-        responseType = ResponseType.fromFile(file.getPath());
-        addCharset = false;
-        dataLength = fileData.length;
     }
 
     /**

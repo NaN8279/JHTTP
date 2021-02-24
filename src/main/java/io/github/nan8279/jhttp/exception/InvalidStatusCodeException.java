@@ -1,6 +1,6 @@
-package io.github.nan8279.jhttp.exceptions;
+package io.github.nan8279.jhttp.exception;
 
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 
 /**
  * Will be thrown when an invalid status code has been given.

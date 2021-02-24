@@ -1,4 +1,4 @@
-package io.github.nan8279.jhttp.response.status_code;
+package io.github.nan8279.jhttp.response.code;
 
 /**
  * Response status codes.
@@ -9,27 +9,27 @@ public enum StatusCode {
      */
     STATUS_200(200, "OK"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_300(300, "Multiple Choice"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_301(301, "Moved Permanently"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_302(302, "Found"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_303(303, "See Other"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_307(307, "Temporary Redirect"),
     /**
-     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special_responses.RedirectResponse}
+     * This status code should only be used with {@link io.github.nan8279.jhttp.response.special.RedirectResponse}
      */
     STATUS_308(308, "Permanent Redirect"),
     STATUS_400(400, "Bad Request"),

@@ -2,13 +2,13 @@ package io.github.nan8279.jhttp.request;
 
 import io.github.nan8279.jhttp.JHTTP;
 import io.github.nan8279.jhttp.client.Client;
-import io.github.nan8279.jhttp.request.raw_request.Command;
-import io.github.nan8279.jhttp.request.raw_request.Protocol;
-import io.github.nan8279.jhttp.request.raw_request.RawRequest;
-import io.github.nan8279.jhttp.request.request_types.GetRequest;
-import io.github.nan8279.jhttp.request.request_types.PostRequest;
+import io.github.nan8279.jhttp.request.raw.Command;
+import io.github.nan8279.jhttp.request.raw.Protocol;
+import io.github.nan8279.jhttp.request.raw.RawRequest;
+import io.github.nan8279.jhttp.request.types.GetRequest;
+import io.github.nan8279.jhttp.request.types.PostRequest;
 import io.github.nan8279.jhttp.response.Response;
-import io.github.nan8279.jhttp.response.status_code.StatusCode;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 
 import java.util.HashMap;
 

@@ -1,11 +1,11 @@
-package io.github.nan8279.jhttp.response.response_types;
+package io.github.nan8279.jhttp.response.types;
 
 /**
  * MIME types for a response.
  *
- * Set the MIME type of a response with {@link io.github.nan8279.jhttp.response.Response#setResponseType(ResponseType)}
+ * Set the MIME type of a response with {@link io.github.nan8279.jhttp.response.Response#setResponseType(FileType)}
  */
-public enum ResponseType {
+public enum FileType {
     AAC_AUDIO("audio/aac", "aac"),
     ABIWORD_DOCUMENT("application/x-abiword", "abw"),
     ARCHIVE_DOCUMENT("application/x-freearc", "arc"),
@@ -87,7 +87,7 @@ public enum ResponseType {
      * @param MIMEString the MIME string used in the Content-Type header in the response.
      * @param extension the extension of the file, without a dot.
      */
-    ResponseType(String MIMEString, String extension) {
+    FileType(String MIMEString, String extension) {
         this.MIMEString = MIMEString;
         this.extension = extension;
     }
@@ -103,16 +103,16 @@ public enum ResponseType {
         return extension;
     }
 
-    public static ResponseType fromExtension(String extension) {
-        for (ResponseType type : ResponseType.values()) {
+    public static FileType fromExtension(String extension) {
+        for (FileType type : FileType.values()) {
             if (type.getExtension().equals(extension)) {
                 return type;
             }
         }
-        return ResponseType.BINARY_DATA;
+        return FileType.BINARY_DATA;
     }
 
-    public static ResponseType fromFile(String path) {
+    public static FileType fromFile(String path) {
         return fromExtension(path.split("\\.")[path.split("\\.").length - 1]);
     }
 }
