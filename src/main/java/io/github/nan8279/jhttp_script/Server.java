@@ -11,6 +11,7 @@ package io.github.nan8279.jhttp_script;
 
 import io.github.nan8279.jhttp.JHTTP;
 import io.github.nan8279.jhttp.response.Response;
+import io.github.nan8279.jhttp.response.code.StatusCode;
 import io.github.nan8279.jhttp.response.types.FileType;
 import io.github.nan8279.jhttp_script.script.Script;
 import org.jsoup.Jsoup;
@@ -38,6 +39,20 @@ public class Server {
             }
 
             String name = page.getName();
+            boolean setErrorPage = false;
+
+            for (StatusCode statusCode : StatusCode.values()) {
+                if (String.valueOf(statusCode.getStatusCode()).equals(name.split("\\.")[0])) {
+                    server.getManager().setErrorPage(statusCode, Response.renderTemplate(page.getPath()));
+
+                    setErrorPage = true;
+                    break;
+                }
+            }
+
+            if (setErrorPage) {
+                continue;
+            }
 
             Document document = Jsoup.parse(page, "UTF-8");
             Elements httpScripts = document.getElementsByTag("httpscript");

@@ -19,6 +19,7 @@ import java.util.HashMap;
  */
 public class RequestManager {
     final private HashMap<String, RequestHandler> handlers = new HashMap<>();
+    final private HashMap<StatusCode, Response> errorPages = new HashMap<>();
 
     /**
      * Adds a request handler to the server.
@@ -56,9 +57,9 @@ public class RequestManager {
         Response response;
 
         if (request.getProtocol() == Protocol.HTTP_1) {
-            return new Response(StatusCode.STATUS_426);
+            return handleError(StatusCode.STATUS_426);
         } else if (request.getProtocol() == Protocol.HTTP_2) {
-            return new Response(StatusCode.STATUS_505);
+            return handleError(StatusCode.STATUS_505);
         }
 
         if (request.getCommand() == Command.GET || request.getCommand() == Command.HEAD) {
@@ -66,16 +67,39 @@ public class RequestManager {
         } else if (request.getCommand() == Command.POST) {
             response = this.parseRequest(new PostRequest(request, client.getCookies(false), client));
         } else {
-            return new Response(StatusCode.STATUS_501);
+            return handleError(StatusCode.STATUS_501);
         }
 
         if (response == null) {
-            return new Response(StatusCode.STATUS_404);
+            return handleError(StatusCode.STATUS_404);
         } else if (request.getCommand() == Command.HEAD) {
             response.setData("");
             return response;
         }
 
         return response;
+    }
+
+    /**
+     * This replaces the error page for the given status code.
+     *
+     * @param statusCode the status code to replace the error page for.
+     * @param response the response to send to the user when the status code occurs.
+     */
+    public void setErrorPage(StatusCode statusCode, Response response) {
+        if (errorPages.containsKey(statusCode)) {
+            errorPages.replace(statusCode, response);
+        } else {
+            errorPages.put(statusCode, response);
+        }
+    }
+
+    private Response handleError(StatusCode errorCode) {
+        for (StatusCode statusCode : errorPages.keySet()) {
+            if (statusCode == errorCode) {
+                return errorPages.get(statusCode);
+            }
+        }
+        return new Response(errorCode);
     }
 }
