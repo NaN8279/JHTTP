@@ -210,13 +210,13 @@ public class Client extends Thread {
             try {
                 response = manager.parseRequest(rawRequest, this);
             } catch (Exception exception) {
-                response = new Response(StatusCode.STATUS_500);
+                response = manager.handleError(StatusCode.STATUS_500);
                 JHTTPLogger.logRequest(response, rawRequest, this, exception);
                 hasLogged = true;
             }
 
         } catch (ArrayIndexOutOfBoundsException exception) {
-            response = new Response(StatusCode.STATUS_400);
+            response = manager.handleError(StatusCode.STATUS_400);
         }
 
         sendResponse(response, rawRequest, !hasLogged);

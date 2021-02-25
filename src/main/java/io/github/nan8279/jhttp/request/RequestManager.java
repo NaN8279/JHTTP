@@ -94,7 +94,14 @@ public class RequestManager {
         }
     }
 
-    private Response handleError(StatusCode errorCode) {
+    /**
+     * Returns the response that will be given to the user when the given error code occurs.
+     * Should only be used internally.
+     *
+     * @param errorCode the error code.
+     * @return the response that will be send to the user.
+     */
+    public Response handleError(StatusCode errorCode) {
         for (StatusCode statusCode : errorPages.keySet()) {
             if (statusCode == errorCode) {
                 return errorPages.get(statusCode);
